@@ -1,0 +1,79 @@
+name: Finite State Machine CI
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - 'examples/**'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'examples/**'
+jobs:
+  phpunit:
+    name: PHPUnit ${{ matrix.php_versions }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php_versions: ['7.4']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_versions }}
+          coverage: pcov
+      - name: Get composer cache directory
+        id: composer_cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer_cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install Composer dependencies
+        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+      - name: Test with PHPUnit
+        run: ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+  psalm:
+    name: Psalm ${{ matrix.php_versions }}
+    runs-on: ubuntu-latest
+    needs: phpunit
+    strategy:
+      fail-fast: false
+      matrix:
+        php_versions: ['7.4']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_versions }}
+      - name: Install dependencies
+        run: composer install --no-progress --no-suggest --prefer-dist
+      - name: Analyze with Psalm
+        run: ./vendor/bin/psalm.phar
+  phpcs:
+    name: PHP_CodeSniffer ${{ matrix.php_versions }}
+    runs-on: ubuntu-latest
+    needs: phpunit
+    strategy:
+      fail-fast: false
+      matrix:
+        php_versions: ['7.4']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_versions }}
+      - name: Install dependencies
+        run: composer install --no-progress --no-suggest --prefer-dist
+      - name: Check for coding standard violations
+        run: ./vendor/bin/phpcs
+      - name: Check for coding standard violations (tests)
+        run: ./vendor/bin/phpcs --standard=tests/phpcs.xml.dist
