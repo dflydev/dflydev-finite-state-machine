@@ -93,9 +93,15 @@ $domainObjectGraphDefinition = [
                'on' => 'approve',
                'from' => 'rejected',
                // will call the method of this class
-               'do' => function (object $object, Transition $transition, State $fromState, State $toState) {
+               'do' => function (
+                   object $object,
+                   Transition $transition,
+                   State $fromState,
+                   State $toState
+               ) {
                    $object->spy = 'guard_on_approving_from_rejected';
 
+                   // If a guard returns false, the transition will not happen
                    return false;
                },
                // arguments for the callback
@@ -108,7 +114,13 @@ $domainObjectGraphDefinition = [
            'spy-before-approve' => [
                'on' => 'ask_for_changes',
                'from' => 'accepted',
-               'do' => function (string $when, object $object, Transition $transition, State $fromState, State $toState) {
+               'do' => function (
+                   string $when,
+                   object $object,
+                   Transition $transition,
+                   State $fromState,
+                   State $toState
+               ) {
                    Assert::equals($fromState->name(), $object->state);
 
                    $object->spy = $when . ' ask_for_changes from accepted';
@@ -121,7 +133,13 @@ $domainObjectGraphDefinition = [
            'spy-after-approve' => [
                'on' => 'ask_for_changes',
                'from' => 'accepted',
-               'do' => function (string $when, object $object, Transition $transition, State $fromState, State $toState) {
+               'do' => function (
+                   string $when,
+                   object $object,
+                   Transition $transition,
+                   State $fromState,
+                   State $toState
+               ) {
                    Assert::equals($toState->name(), $object->state);
                    Assert::equals('before ask_for_changes from accepted', $object->spy);
 
