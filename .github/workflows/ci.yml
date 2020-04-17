@@ -10,7 +10,7 @@ on:
       - 'examples/**'
 jobs:
   phpunit:
-    name: PHPUnit ${{ matrix.php_versions }}
+    name: PHPUnit (PHP ${{ matrix.php_versions }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
