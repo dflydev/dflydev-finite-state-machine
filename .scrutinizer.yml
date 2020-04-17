@@ -1,6 +1,6 @@
 tools:
-    external_code_coverage:
-        timeout: 600
-filter:
-    excluded_paths:
-        - tests/*
+  external_code_coverage:
+    timeout: 600
+build:
+  environment:
+    php: 7.4.5
