@@ -2,6 +2,7 @@
     "name": "dflydev/finite-state-machine",
     "description": "Yet another finite-state machine implementation",
     "type": "library",
+    "keywords": ["finite-state machine", "fsm", "state machine"],
     "require": {
         "php": "^7.4|^8.0"
     },

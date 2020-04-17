@@ -1,4 +1,3 @@
-name: Finite State Machine CI
 on:
   push:
     paths-ignore:
@@ -41,6 +40,14 @@ jobs:
         run: |
           wget https://scrutinizer-ci.com/ocular.phar
           php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+      - name: Send to Code Climate
+        uses: paambaati/codeclimate-action@v2.5.6
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: true
+          coverageLocations:
+            "${{github.workspace}}/coverage.clover:clover"
   psalm:
     name: Psalm ${{ matrix.php_versions }}
     runs-on: ubuntu-latest
