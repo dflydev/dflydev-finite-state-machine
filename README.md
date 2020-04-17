@@ -2,7 +2,7 @@
 
 This library is yet another finite-state machine implementation.
 
-![Build Status](https://github.com/dflydev/dflydev-finite-state-machine/workflows/ci.yml/badge.svg)
+![Build Status](https://github.com/dflydev/dflydev-finite-state-machine/workflows/Build%20Status/badge.svg)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/dflydev/dflydev-finite-state-machine/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/dflydev/dflydev-finite-state-machine/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/dflydev/dflydev-finite-state-machine/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/dflydev/dflydev-finite-state-machine/?branch=master)
 [![Code Climate](https://codeclimate.com/github/dflydev/dflydev-finite-state-machine/badges/gpa.svg)](https://codeclimate.com/github/dflydev/dflydev-finite-state-machine)
