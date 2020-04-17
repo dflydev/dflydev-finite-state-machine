@@ -13,6 +13,7 @@ use Dflydev\FiniteStateMachine\ObjectProxy\PropertyObjectProxyFactory;
 use Dflydev\FiniteStateMachine\State\State;
 use Dflydev\FiniteStateMachine\Testing\RecordOnlyEventDispatcher;
 use Dflydev\FiniteStateMachine\Transition\Transition;
+use stdClass;
 use Tests\Fixtures\SebdesignExample;
 use Tests\TestCase;
 use Throwable;
@@ -62,6 +63,45 @@ class FiniteStateMachineTest extends TestCase
         }
 
         return $this->eventDispatcher;
+    }
+
+    /** @test */
+    public function it_cannot_resolve_unknown_object()
+    {
+        $this->expectException(Throwable::class);
+        $this->expectExceptionMessage(
+            'No graph named "default" for class named "stdClass"'
+        );
+
+        $badApple = new stdClass();
+
+        $finiteStateMachine = $this->getDefaultFiniteStateMachineFactory()
+            ->build($badApple);
+    }
+
+    /** @test */
+    public function it_cannot_find_missing_graph()
+    {
+        $this->expectException(Throwable::class);
+        $this->expectExceptionMessage(
+            'No graph named "default" for class named "Tests\Fixtures\SebdesignExample"'
+        );
+
+        $sebdesignExample = new SebdesignExample();
+
+        $finiteStateMachine = $this->getDefaultFiniteStateMachineFactory()
+            ->build($sebdesignExample);
+    }
+
+    /** @test */
+    public function it_gets_graph_metadata()
+    {
+        $sebdesignExample = new SebdesignExample();
+
+        $finiteStateMachine = $this->getDefaultFiniteStateMachineFactory()
+            ->build($sebdesignExample, 'graphA');
+
+        $this->assertEquals(['title' => 'Graph A'], $finiteStateMachine->graph()->metadata());
     }
 
     /** @test */

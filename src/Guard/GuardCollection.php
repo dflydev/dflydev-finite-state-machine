@@ -32,15 +32,6 @@ class GuardCollection
         $this->guardsByName[$guard->name()] = $guard;
     }
 
-    public function named(string $name): Guard
-    {
-        if (! isset($this->guardsByName[$name])) {
-            throw new \RuntimeException(sprintf('No guard named "%s"', $name));
-        }
-
-        return $this->guardsByName[$name];
-    }
-
     public function cannot(object $object, Transition $transition, State $fromState, State $toState): bool
     {
         foreach ($this->guards as $guard) {

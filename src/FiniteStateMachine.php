@@ -43,6 +43,11 @@ class FiniteStateMachine implements FiniteStateMachineContract
         );
     }
 
+    public function graph(): Graph
+    {
+        return $this->graph;
+    }
+
     public function can(string $transition): bool
     {
         $resolvedTransition = $this->resolveTransition($transition);

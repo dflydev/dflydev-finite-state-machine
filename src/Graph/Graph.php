@@ -79,9 +79,4 @@ class Graph
     {
         return $this->transitionEventCollection;
     }
-
-    public function supports(object $object): bool
-    {
-        return $object instanceof $this->className;
-    }
 }
