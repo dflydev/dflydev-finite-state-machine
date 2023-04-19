@@ -39,7 +39,7 @@ class GraphCollection
         $className = get_class($object);
 
         foreach ($this->graphsByName as $classNameForGraph => $graphs) {
-            if (! $object instanceof $classNameForGraph) {
+            if (!$object instanceof $classNameForGraph) {
                 continue;
             }
 

@@ -6,9 +6,9 @@ namespace Dflydev\FiniteStateMachine\State;
 
 class State
 {
-    const INITIAL = 'initial';
-    const NORMAL = 'normal';
-    const FINAL = 'final';
+    public const INITIAL = 'initial';
+    public const NORMAL = 'normal';
+    public const FINAL = 'final';
 
     private string $type;
     private string $name;

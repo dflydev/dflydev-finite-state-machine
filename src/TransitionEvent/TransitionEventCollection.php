@@ -38,7 +38,7 @@ class TransitionEventCollection
 
     public function fireIfMatches(Event $event): void
     {
-        if (! isset($this->transitionEventsByWhenAndName[$event->when()])) {
+        if (!isset($this->transitionEventsByWhenAndName[$event->when()])) {
             return;
         }
 

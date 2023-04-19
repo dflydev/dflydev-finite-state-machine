@@ -5,20 +5,22 @@ declare(strict_types=1);
 namespace Dflydev\FiniteStateMachine;
 
 use Dflydev\FiniteStateMachine\Contracts\EventDispatcher;
+use Dflydev\FiniteStateMachine\Contracts\ExposedFiniteStateMachine;
 use Dflydev\FiniteStateMachine\Contracts\FiniteStateMachine as FiniteStateMachineContract;
-use Dflydev\FiniteStateMachine\Event\NullEventDispatcher;
+use Dflydev\FiniteStateMachine\Contracts\ObjectProxy;
+use Dflydev\FiniteStateMachine\Contracts\TransitionQueryableFiniteStateMachine;
 use Dflydev\FiniteStateMachine\Event\Applied;
+use Dflydev\FiniteStateMachine\Event\NullEventDispatcher;
 use Dflydev\FiniteStateMachine\Event\Started;
 use Dflydev\FiniteStateMachine\Event\TransitionEventDispatcher;
 use Dflydev\FiniteStateMachine\Graph\Graph;
 use Dflydev\FiniteStateMachine\Guard\GuardCollection;
 use Dflydev\FiniteStateMachine\State\State;
-use Dflydev\FiniteStateMachine\Contracts\ObjectProxy;
 use Dflydev\FiniteStateMachine\State\StateCollection;
 use Dflydev\FiniteStateMachine\Transition\Transition;
 use Dflydev\FiniteStateMachine\Transition\TransitionCollection;
 
-class FiniteStateMachine implements FiniteStateMachineContract
+class FiniteStateMachine implements FiniteStateMachineContract, ExposedFiniteStateMachine, TransitionQueryableFiniteStateMachine
 {
     private Graph $graph;
     private ObjectProxy $objectProxy;
@@ -152,5 +154,10 @@ class FiniteStateMachine implements FiniteStateMachineContract
         }
 
         return $this->transitionCollection->named($transitionOrTransitionName);
+    }
+
+    public function queryTransitions(callable $transitionVisitor): TransitionCollection
+    {
+        return new TransitionCollection(...array_filter($this->transitionCollection->toArray(), $transitionVisitor));
     }
 }

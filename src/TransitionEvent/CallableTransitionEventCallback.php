@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Dflydev\FiniteStateMachine\TransitionEvent;
 
-use Closure;
-use Dflydev\FiniteStateMachine\Contracts\Event;
 use Dflydev\FiniteStateMachine\Contracts\TransitionEventCallback;
 use Dflydev\FiniteStateMachine\State\State;
 use Dflydev\FiniteStateMachine\Transition\Transition;

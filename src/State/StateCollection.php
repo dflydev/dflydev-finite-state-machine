@@ -31,7 +31,7 @@ class StateCollection
 
     public function named(string $name): State
     {
-        if (! isset($this->statesByName[$name])) {
+        if (!isset($this->statesByName[$name])) {
             throw new \RuntimeException(sprintf('No state named "%s"', $name));
         }
 

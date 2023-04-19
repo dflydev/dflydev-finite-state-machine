@@ -33,7 +33,7 @@ class TransitionCollection
 
     public function named(string $name): Transition
     {
-        if (! isset($this->transitionsByName[$name])) {
+        if (!isset($this->transitionsByName[$name])) {
             throw new \RuntimeException(sprintf('No transition named "%s"', $name));
         }
 
@@ -50,9 +50,41 @@ class TransitionCollection
         /** @var Transition[] $transitions */
         $transitions = array_filter(
             $this->transitions,
-            fn(Transition $transition) => $transition->canTransitionFrom($state)
+            fn (Transition $transition) => $transition->canTransitionFrom($state)
         );
 
         return new static(...$transitions);
+    }
+
+    /**
+     * @return Transition[]
+     */
+    public function toArray(): array
+    {
+        return $this->transitions;
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->transitions);
+    }
+
+    public function count(): int
+    {
+        return count($this->transitions);
+    }
+
+    public function hasOnlyOne(): bool
+    {
+        return 1 === count($this->transitions);
+    }
+
+    public function one(): Transition
+    {
+        if (!$this->hasOnlyOne()) {
+            throw new \RuntimeException('Transition collection does not have only one transition.');
+        }
+
+        return $this->transitions[0];
     }
 }

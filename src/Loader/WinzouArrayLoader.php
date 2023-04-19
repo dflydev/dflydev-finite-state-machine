@@ -62,7 +62,7 @@ class WinzouArrayLoader implements Loader
                 $transitionNames = $setup['on'] ?? [];
                 $fromStateNames = $setup['from'] ?? [];
                 $toStateNames = $setup['to'] ?? [];
-                $do = $setup['do'] ?? fn(): bool => false;
+                $do = $setup['do'] ?? fn (): bool => false;
 
                 $guardCollection->add(new Guard(
                     $name,

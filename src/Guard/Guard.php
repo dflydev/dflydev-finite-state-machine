@@ -59,6 +59,6 @@ class Guard
             return false;
         }
 
-        return ! $this->callback->__invoke($object, $transition, $fromState, $toState);
+        return !$this->callback->__invoke($object, $transition, $fromState, $toState);
     }
 }
